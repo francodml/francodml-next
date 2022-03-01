@@ -1,0 +1,49 @@
+.container {
+	display: flex;
+	flex-direction: row;
+}
+
+.container div {
+	background-color: #212121;
+	width: 100%;
+	padding: 20px;
+}
+
+.info {
+	flex: 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	text-align: right;
+}
+
+.main {
+	flex: 80%;
+	text-align: left;
+}
+
+.main p {
+	padding-right: 80px;
+    text-indent: 25px;
+}
+
+@media screen and (max-width: 800px) {
+	.container {
+		flex-direction: column;
+	}
+	
+	.info {
+		align-items: center;
+		text-align: center;
+		flex:auto;
+	}
+
+	.container div {
+		width: auto;
+	}
+
+	.main p {
+		padding-right: unset;
+	}
+
+}

@@ -1,0 +1,44 @@
+.navlinks, .navbar, .externlinks {
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	align-items:center;
+	background-color: #212121;
+}
+
+.navbar{
+	justify-content: space-between;
+	align-content: space-between;
+	position:sticky;
+}
+
+.navbar a {
+	color: #e3e3e3;
+	background-color: #212121;
+	text-align: center;
+	padding: 14px;
+	text-decoration: none;
+	transition: 0.1s;
+}
+
+.navbar a:hover {
+	box-sizing: border-box;
+	background-color: teal;
+}
+
+.externlinks {
+	flex-direction: row-reverse !important;
+	justify-self: flex-end;
+}
+
+.navbar .active {
+	outline: 3px solid teal;
+	outline-offset: -2px;
+	font-weight: bold;
+}
+
+.sticky {
+	position: sticky;
+	top: 0;
+	width: 100%;
+}

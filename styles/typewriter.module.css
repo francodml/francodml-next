@@ -1,0 +1,39 @@
+.typewriter, .blinker {
+	display:inline;
+}
+
+.blinker {
+	float: right;
+	text-align: end;
+	vertical-align: center;
+	margin-top: -2px;
+	font-size: 150%;
+}
+
+.typewriter {
+	text-align: left;
+}
+
+.typewriter_container {
+	padding:5px;
+	min-height: 2.2cm;
+	background-color: #2121213a;
+	backdrop-filter: blur(15px);
+	align-self: flex-start;
+}
+
+.blink {
+	font-weight: inherit;
+	font-size: inherit;
+	color: inherit;
+	animation: blink 1s infinite step-end;
+}
+
+@keyframes blink {
+	from, to {
+		color: transparent;
+	}
+	50% {
+		color: inherit;
+	}
+}

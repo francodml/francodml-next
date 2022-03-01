@@ -1,0 +1,73 @@
+$card-color: #212121;
+$card-hover-color: #303030;
+
+.ProjectList {
+    display: flex;
+    flex-direction: row;
+    //align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    background-color: unset;
+	padding: 10px;
+	
+	@media screen and (max-width: 30em) {
+		flex-direction: column;
+
+		& > .ProjectListing {
+			width: 100% !important;
+			margin-bottom: 20px;
+		}
+	}
+    
+    & > .ProjectListing {
+        display: flex;
+        flex-direction: column;
+        //font-family: 'Times New Roman', Times, serif;
+        width: 33%;
+		flex-basis: 30%;
+        height: 500px;
+        border-radius: 10px;
+        background-color: $card-color;
+        overflow: hidden;
+		transition: background-color 0.1s;
+		cursor: pointer;
+
+		&:hover {
+			background-color: $card-hover-color;
+
+			.banner_content {
+                background-color: #4040403a;
+			}
+		}
+
+        & > .banner {
+			transition: filter 0.1s;
+            height: 30%;
+            padding: 10px;
+            line-height: 100%;
+        }
+
+        .banner_content {
+            background-color: #2121213a;
+            border-radius: 10px;
+            backdrop-filter: blur(15px);
+            padding:5px;
+            overflow: hidden;
+            transition: background-color 0.1s;
+
+            > * {
+                margin: 10px;
+            }
+
+            h2 {
+                font-size: large;
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+:export {
+    cardColor:$card-color;
+}

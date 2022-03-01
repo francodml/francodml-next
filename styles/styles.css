@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Noto+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+html,
+body {
+	color: #e3e3e3;
+	font-family: 'Noto Sans', sans-serif;
+	background-color: #131313;
+	padding: 0;
+	margin: 0;
+	/*font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+	Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;*/
+}
+
+* {
+	box-sizing: border-box;
+}
+  
+
+.header{
+	display:flex;
+	flex-flow: column;
+	align-items:center;
+	padding:30px;
+	background-image:url("/images/win_lake_reflection_night.png");
+	background-position: center;
+	background-position-y: 30%;
+	background-size:cover;
+	min-height: 200px;
+
+	font-family: 'Major Mono Display', sans-serif;
+	color: #e3e3e3;
+}
+
+.header h1{
+	font-size: 300%;
+	font-weight: bold;
+	background-color: #2121213a;
+	padding: 15px;
+	margin: 25px;
+	width:100%;
+	text-align: center;
+	backdrop-filter: blur(15px);
+}
+
+.header p {
+	font-size: 150%;
+	font-family: "Share Tech Mono", sans-serif;
+}
+
+h1 {
+	font-weight: normal;
+}
+
+p {
+	font-family: inherit
+}
+
+.index-content {
+	font-family: "Noto Sans", sans-serif !important;
+	text-align: left;
+}
+
+.index-content h1 {
+	margin-bottom: 0px;
+}
+
+.index-content p {
+	margin: 10px;
+	padding-bottom: 5px;
+}
+
+#index-ramble {
+	margin-left:50px;
+	padding-top:5px;
+	padding-bottom:20px;
+}
+
+@media screen and (max-width: 800px) {
+	.header p {
+		font-size: 125%;
+	}
+
+	#index-ramble {
+		padding:10px;
+		margin-left: unset;
+	}
+}
+  
+  /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+	padding-top: 60px;
+}
+
+div.content {
+    margin: 15px;
+}
