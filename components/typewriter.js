@@ -3,17 +3,10 @@ import React from 'react'
 import styles from '../styles/typewriter.module.css'
 
 const subtitles = [
-	"Isn't this something?",
-	"You mean to tell me this isn't how you webdev?",
-	"Cutting edge NEXT.js technology right 'ere",
-	"About Page™ coming Soon™",
-	"Can't get the cursor to align properly 😩",
-	"Spent way too long setting up the navbar",
-	"It'll look better once I figure out CSS animations, I swear.",
-	"I think, and this is just a suggestion, I should add weights to these.",
-	"Lucky for me, this doesn't do newlines.",
+	"Spent way too long setting up this navbar",
     "You can tell I'm not a designer, can't you?",
-    "I upgraded Next and nothing broke. Impressive."
+    "I upgraded Next and nothing broke. Impressive.",
+    "What's this 'continuous integration' you speak of?"
 ];
 
 const speed = 30;
