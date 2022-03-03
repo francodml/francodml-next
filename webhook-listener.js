@@ -41,7 +41,7 @@ http.createServer(function (req, res) {
             Log("Received pull signal, determining if we should deploy...");
             //determine if there were changes to package.json using git
             exec("git fetch", {cwd: repoPath});
-            const git = spawn('git', ['diff', '--name-only', 'main', 'origin/main'], [{cwd: repoPath}]);
+            const git = spawn('git', ['diff', '--name-only', 'main', 'origin/main'], {cwd: repoPath});
             let output = "";
             git.stdout.on('data', function(data) {
                 output += data.toString();
