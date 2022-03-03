@@ -40,7 +40,7 @@ http.createServer(function (req, res) {
             }
             Log("Received pull signal, determining if we should deploy...");
             //determine if there were changes to package.json using git
-            exec("git fetch", {cwd: repoPath});
+            exec("git pull", {cwd: repoPath});
             const git = spawn('git', ['diff', '--name-only', 'main', 'origin/main'], {cwd: repoPath});
             let output = "";
             Log("Running git diff...");
@@ -57,6 +57,7 @@ http.createServer(function (req, res) {
                     shouldUpdate['webhook-listener'] = true;
                 }
                 Log(`Will perform update for: ${shouldUpdate.keys()}`)
+                Log(shouldUpdate);
             })
             if (shouldUpdate['site']) {
                 const cmd = spawn("update.bat");
