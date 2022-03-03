@@ -7,7 +7,6 @@ const subtitles = [
     "You can tell I'm not a designer, can't you?",
     "I upgraded Next and nothing broke. Impressive.",
     "What's this 'continuous integration' you speak of?",
-    "Testing github webhooks!"
 ];
 
 const speed = 30;
