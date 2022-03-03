@@ -23,7 +23,6 @@ http.createServer(function (req, res) {
     
     req.on('end', function() {
         let parsedData = JSON.parse(data);
-	    console.log("Received pull signal, updating");
         if (req.headers['x-hub-signature'] == sig) {
             const branch = parsedData.ref.split("/")[2];
             if (branch !== triggerBranch) {
@@ -32,16 +31,18 @@ http.createServer(function (req, res) {
                 res.end("Didn't match trigger branch, not deploying.");
                 return;
             }
-            const cmd = spawn('update.bat');
-            cmd.stdout.on("data", x => {
+            console.log("Received pull signal, updating");
+            const cmd = spawn("update.bat");
+            console.log("Launched update.bat");
+            cmd.stdout.on('data', x => {
                 console.log(`stdout: ${x}`);
             })
-            cmd.stderr.on("data", x => {
+            cmd.stderr.on('data', x => {
                 console.log(`stderr: ${x}`);
             })
             
             cmd.on('close', (code) => {
-                console.log(`child process exited with code ${code}`);
+                console.log(`update.bat exited with code ${code}`);
             });
         }
         res.end();
