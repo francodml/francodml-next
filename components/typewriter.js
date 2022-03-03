@@ -6,7 +6,7 @@ const subtitles = [
 	"Spent way too long setting up this navbar",
     "You can tell I'm not a designer, can't you?",
     "I upgraded Next and nothing broke. Impressive.",
-    "What's this 'continuous integration' you speak of?",
+    "What's this 'continuous integration' you speak of?"
 ];
 
 const speed = 30;
