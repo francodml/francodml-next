@@ -43,8 +43,10 @@ http.createServer(function (req, res) {
             exec("git fetch", {cwd: repoPath});
             const git = spawn('git', ['diff', '--name-only', 'main', 'origin/main'], {cwd: repoPath});
             let output = "";
+            Log("Running git diff...");
             git.stdout.on('data', function(data) {
                 output += data.toString();
+                Log(data.toString());
             })
             const shouldUpdate = []
             git.on('close', (code) => {
@@ -54,6 +56,7 @@ http.createServer(function (req, res) {
                 if (output.indexOf("webhook-listener.js") !== -1) {
                     shouldUpdate['webhook-listener'] = true;
                 }
+                Log(`Will perform update for: ${shouldUpdate.keys()}`)
             })
             if (shouldUpdate['site']) {
                 const cmd = spawn("update.bat");
