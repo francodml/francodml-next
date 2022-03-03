@@ -54,6 +54,9 @@ http.createServer(function (req, res) {
                 })            
     
                 git.on('close', (code) => {
+                    
+                    var shouldUpdate = {};
+
                     if (output.indexOf("package.json") !== -1) {
                         shouldUpdate.site = true;
                     }
