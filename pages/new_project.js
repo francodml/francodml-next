@@ -1,3 +1,5 @@
+import ProjectEditor from "../components/projecteditor";
+
 export default function NewProjectPage(){
     const dev = process.env.NODE_ENV !== 'production';
 
@@ -5,8 +7,9 @@ export default function NewProjectPage(){
 
     if (dev) {
         page = (
-            <div>
+            <div style={{height: "100%"}}>
                 <h1>New Project Page</h1>
+                <ProjectEditor/>
             </div>
         );
     } else {
