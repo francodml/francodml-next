@@ -41,46 +41,49 @@ http.createServer(function (req, res) {
             Log("Received pull signal, determining if we should deploy...");
             //determine if there were changes to package.json using git
             exec("git pull", {cwd: repoPath});
-            const git = spawn('git', ['diff', '--name-only', 'main', 'origin/main'], {cwd: repoPath});
+            const git = spawn('git', ['diff', '--name-only', 'main~1', 'origin/main'], {cwd: repoPath});
             let output = "";
             Log("Running git diff...");
             git.stdout.on('data', function(data) {
                 output += data.toString();
                 Log(data.toString());
             })
-            const shouldUpdate = []
+            
+            var shouldUpdate = {};
+
             git.on('close', (code) => {
                 if (output.indexOf("package.json") !== -1) {
-                    shouldUpdate['site'] = true;
+                    shouldUpdate.site = true;
                 }
                 if (output.indexOf("webhook-listener.js") !== -1) {
-                    shouldUpdate['webhook-listener'] = true;
+                    shouldUpdate.webhookListener = true;
                 }
-                Log(`Will perform update for: ${shouldUpdate.keys()}`)
+                Log(`Will perform update for: ${Object.keys(shouldUpdate).join(", ")}`);
                 Log(shouldUpdate);
-            })
-            if (shouldUpdate['site']) {
-                const cmd = spawn("update.bat");
-                Log("Launched update.bat");
-                cmd.stdout.on('data', x => {
-                    Log(`stdout: ${x}`);
-                })
-                cmd.stderr.on('data', x => {
-                    Log(`stderr: ${x}`);
-                })
-                
-                cmd.on('close', (code) => {
-                    Log(`update.bat exited with code ${code}`);
-                });
-            }
 
-            if (shouldUpdate['webhook-listener']){
-                fs.copyFile(`${repoPath}\\webhook-listener.js`, ".\\webhook-listener.js", (err) => {
-                    if (err) throw err;
-                    Log("Updated webhook-listener.js, restarting via pm2");
-                    exec("pm2 restart webhook-listener");
-                });
-            }
+                if (shouldUpdate.site) {
+                    const cmd = spawn("update.bat");
+                    Log("Launched update.bat");
+                    cmd.stdout.on('data', x => {
+                        Log(`stdout: ${x}`);
+                    })
+                    cmd.stderr.on('data', x => {
+                        Log(`stderr: ${x}`);
+                    })
+                    
+                    cmd.on('close', (code) => {
+                        Log(`update.bat exited with code ${code}`);
+                    });
+                }
+    
+                if (shouldUpdate.webhookListener){
+                    fs.copyFile(`${repoPath}\\webhook-listener.js`, ".\\webhook-listener.js", (err) => {
+                        if (err) throw err;
+                        Log("Updated webhook-listener.js, restarting via pm2");
+                        exec("pm2 restart webhook-listener");
+                    });
+                }
+            })
         }
         res.end();
     });
