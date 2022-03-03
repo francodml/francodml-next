@@ -3,12 +3,19 @@ const fs = require('fs');
 const http = require('http');
 const crypto = require('crypto');
 const spawn = require('child_process').spawn;
+const exec = require('child_process').exec;
 
-
-const secret = fs.readFileSync("./secret.txt").toString();
+const settings = JSON.parse(fs.readFileSync("./settings.json").toString());
+const secret = settings.secret;
+const repoPath = settings.repoPath;
 const triggerBranch = "main";
 
-console.log("Created server on port 8100");
+function Log(message){
+    const t = new Date();
+    console.log(`[${t.toISOString()}] ${message}`);
+}
+
+Log("Created server on port 8100");
 http.createServer(function (req, res) {
     
     let data = '';
@@ -26,24 +33,49 @@ http.createServer(function (req, res) {
         if (req.headers['x-hub-signature'] == sig) {
             const branch = parsedData.ref.split("/")[2];
             if (branch !== triggerBranch) {
-                console.log(`Branch ${branch} is not ${triggerBranch}, ignoring.`);
+                Log(`Branch ${branch} is not ${triggerBranch}, ignoring.`);
                 res.writeHead("406");
                 res.end("Didn't match trigger branch, not deploying.");
                 return;
             }
-            console.log("Received pull signal, updating");
-            const cmd = spawn("update.bat");
-            console.log("Launched update.bat");
-            cmd.stdout.on('data', x => {
-                console.log(`stdout: ${x}`);
+            Log("Received pull signal, determining if we should deploy...");
+            //determine if there were changes to package.json using git
+            const git = spawn('git', ['diff', '--name-only', 'HEAD'], [{cwd: repoPath}]);
+            let output = "";
+            git.stdout.on('data', function(data) {
+                output += data.toString();
             })
-            cmd.stderr.on('data', x => {
-                console.log(`stderr: ${x}`);
+            const shouldUpdate = []
+            git.on('close', (code) => {
+                if (output.indexOf("package.json") !== -1) {
+                    shouldUpdate['site'] = true;
+                }
+                if (output.indexOf("webhook-listener.js") !== -1) {
+                    shouldUpdate['webhook-listener'] = true;
+                }
             })
-            
-            cmd.on('close', (code) => {
-                console.log(`update.bat exited with code ${code}`);
-            });
+            if (shouldUpdate['site']) {
+                const cmd = spawn("update.bat");
+                Log("Launched update.bat");
+                cmd.stdout.on('data', x => {
+                    Log(`stdout: ${x}`);
+                })
+                cmd.stderr.on('data', x => {
+                    Log(`stderr: ${x}`);
+                })
+                
+                cmd.on('close', (code) => {
+                    Log(`update.bat exited with code ${code}`);
+                });
+            }
+
+            if (shouldUpdate['webhook-listener']){
+                fs.copyFile(`${repoPath}/webhook-listener.js`, "./webhook-listener.js", (err) => {
+                    if (err) throw err;
+                    Log("Updated webhook-listener.js, restarting it via pm2");
+                    exec("pm2 restart webhook-listener");
+                });
+            }
         }
         res.end();
     });
