@@ -10,17 +10,27 @@ const triggerBranch = "main";
 
 console.log("Created server on port 8100");
 http.createServer(function (req, res) {
-    req.on('data', function(chunk) {
-        let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
-	console.log("Received pull signal, updating");
-        if (req.headers['x-hub-signature'] == sig) {
+    
+    let data = '';
+    let sig = '';
 
-            //get branch from request body
-            let branch = req.body.ref.split("/")[2];
+    req.on('data', function(chunk) {
+        data += chunk;
+        if (sig === '') {
+            sig += "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
+        }
+    });
+    
+    req.on('end', function() {
+        let parsedData = JSON.parse(data);
+	    console.log("Received pull signal, updating");
+        if (req.headers['x-hub-signature'] == sig) {
+            const branch = parsedData.ref.split("/")[2];
             if (branch !== triggerBranch) {
+                console.log(`Branch ${branch} is not ${triggerBranch}, ignoring.`);
                 res.writeHead("406");
                 res.end("Didn't match trigger branch, not deploying.");
-                return
+                return;
             }
             const cmd = spawn('update.bat');
             cmd.stdout.on("data", x => {
@@ -34,7 +44,7 @@ http.createServer(function (req, res) {
                 console.log(`child process exited with code ${code}`);
             });
         }
+        res.end();
     });
 
-    res.end();
 }).listen(8100);
