@@ -40,7 +40,8 @@ http.createServer(function (req, res) {
             }
             Log("Received pull signal, determining if we should deploy...");
             //determine if there were changes to package.json using git
-            const git = spawn('git', ['diff', '--name-only', 'HEAD'], [{cwd: repoPath}]);
+            exec("git fetch", {cwd: repoPath});
+            const git = spawn('git', ['diff', '--name-only', 'main', 'origin/main'], [{cwd: repoPath}]);
             let output = "";
             git.stdout.on('data', function(data) {
                 output += data.toString();
@@ -70,7 +71,7 @@ http.createServer(function (req, res) {
             }
 
             if (shouldUpdate['webhook-listener']){
-                fs.copyFile(`${repoPath}/webhook-listener.js`, "./webhook-listener.js", (err) => {
+                fs.copyFile(`${repoPath}\\webhook-listener.js`, ".\\webhook-listener.js", (err) => {
                     if (err) throw err;
                     Log("Updated webhook-listener.js, restarting via pm2");
                     exec("pm2 restart webhook-listener");
