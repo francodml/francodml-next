@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 	return(
 		<div>
 			<Head>
-				<title>Win's projects and whatnot</title>
+				<title>Franco's projects and whatnot</title>
 			</Head>
 			<div className="header">
 				<h1>[franco's pRojects and whatnot]</h1>

@@ -47,9 +47,7 @@ http.createServer(function (req, res) {
             git.stdout.on('data', function(data) {
                 output += data.toString();
                 Log(data.toString());
-            })
-            
-            var shouldUpdate = {};
+            })            
 
             git.on('close', (code) => {
                 if (output.indexOf("package.json") !== -1) {
