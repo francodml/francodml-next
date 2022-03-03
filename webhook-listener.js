@@ -72,7 +72,7 @@ http.createServer(function (req, res) {
             if (shouldUpdate['webhook-listener']){
                 fs.copyFile(`${repoPath}/webhook-listener.js`, "./webhook-listener.js", (err) => {
                     if (err) throw err;
-                    Log("Updated webhook-listener.js, restarting it via pm2");
+                    Log("Updated webhook-listener.js, restarting via pm2");
                     exec("pm2 restart webhook-listener");
                 });
             }
