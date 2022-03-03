@@ -64,7 +64,6 @@ http.createServer(function (req, res) {
                         shouldUpdate.webhookListener = true;
                     }
                     Log(`Will perform update for: ${Object.keys(shouldUpdate).join(", ")}`);
-                    Log(shouldUpdate);
     
                     if (shouldUpdate.site) {
                         const cmd = spawn("update.bat");
@@ -84,6 +83,7 @@ http.createServer(function (req, res) {
                     if (shouldUpdate.webhookListener){
                         fs.copyFile(`${repoPath}\\webhook-listener.js`, ".\\webhook-listener.js", (err) => {
                             if (err) throw err;
+                            res.end(); //You could consider this duplicate code, but the call further down won't run if we update the listener.
                             Log("Updated webhook-listener.js, restarting via pm2");
                             exec("pm2 restart webhook-listener");
                         });
