@@ -1,21 +1,8 @@
 .projectContent {
     display: flex;
-    width: 60%;
+    width: 100%;
     overflow: hidden;
     flex-direction: column;
-
-    h1 {
-        font-weight: bold;
-        font-size: 3em;
-    }
-
-    h2.subtitle {
-        position: relative;
-        font-weight: normal;
-        font-size: 2em;
-        margin: 5px;
-        top: -30px;
-    }
 
     .header{
         padding: 10px;
@@ -27,14 +14,36 @@
         display: flex;
 
         .headertext {
+            h1, h2 {
+                text-shadow:
+                -1px -1px 0 #000,  
+                 1px -1px 0 #000,
+                 -1px 1px 0 #000,
+                  1px 1px 0 #000;
+            }
+
+            h1 {
+                font-weight: bold;
+                font-size: 3em;
+            }
+        
+            h2.subtitle {
+                position: relative;
+                font-weight: normal;
+                font-size: 1.5em;
+                margin: 5px;
+                top: -20px;
+            }
+        
             & > * {
                 border: 0;
             }
-            //margin: 50px;
+
             width: 100%;
             padding: 10px;
             backdrop-filter: blur(5px);
-            background-color: #2121215b;
+            background: linear-gradient(90deg, #2121212b 0%, #2121212b 25%, #00000000 100%);
+            //-webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0) 100%);
 
             ::after {
                 content: '';
