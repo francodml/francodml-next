@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import styles from  "../../styles/projects.module.scss";
 
 export async function getStaticProps( { params } ) {
     const client = await MongoClient
@@ -14,7 +15,8 @@ export async function getStaticProps( { params } ) {
                 id: project._id.toString(),
                 name: project.name,
                 subtitle: project.subtitle,
-                content: project.content || project.shortcontent,
+                content: project.longcontent || project.shortcontent,
+                imagepath: project.image_path || null,
             }
         }
     }
@@ -39,10 +41,16 @@ export async function getStaticPaths() {
 
 export default function ProjectDetails( props ) {
 
+    let image_path = `url("/images/projects/${props.project.imagepath || props.project.name}.png")`;
+
 	return (
-		<div>
-            <h1>{props.project.name}</h1>
-            <p>{props.project.subtitle}</p>
+		<div className={styles.projectContent}>
+            <div className={styles.header} style={{backgroundImage: image_path.toLowerCase()}}>
+                <div className={styles.headertext}>
+                    <h1>{props.project.name}</h1>
+                    <h2 className={styles.subtitle}>{props.project.subtitle}</h2>
+                </div>
+            </div>
             <p>{props.project.content}</p>
 		</div>
 	);
