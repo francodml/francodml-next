@@ -8,10 +8,6 @@ export default function ProjectEditor() {
     const subtitleInputRef = useRef();
     const pagepathInputRef = useRef();
 
-    useEffect(() => {
-        subtitleInputRef.current.text = nameInputRef.current.text;
-    });
-    
     const longcontentInputRef = useRef();
     const shortcontentInputRef = useRef();
     
@@ -23,7 +19,7 @@ export default function ProjectEditor() {
             subtitle: subtitleInputRef.current.value,
             shortcontent: shortcontentInputRef.current.value,
             longcontent: longcontentInputRef.current.value,
-            pagepath: pagepathInputRef.current.value
+            page_path: pagepathInputRef.current.value
         }
 
         const response = await fetch("/api/new_project", {
@@ -47,10 +43,12 @@ export default function ProjectEditor() {
                 <label htmlFor="name">Project name</label>
                 <input name="subtitle" id="subtitle" ref={subtitleInputRef} type="text"/>
                 <label htmlFor="subtitle">Project subtitle</label>
+
+                <button onClick={submitData} style={{height: "50px"}}>Submit</button>
             </div>
             <div className={styles.inputContainer}>
-                <input className={styles.small} ref={shortcontentInputRef} type="text" placeholder="Short Description" />
-                <input className={styles.large} ref={longcontentInputRef} type="text" placeholder="Long Description" />
+                <textarea className={styles.small} ref={shortcontentInputRef} type="text" placeholder="Short Description" />
+                <textarea className={styles.large} ref={longcontentInputRef} type="text" placeholder="Long Description" />
             </div>
         </div>
 
