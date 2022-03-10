@@ -58,7 +58,8 @@ p {
 
 .index-content {
 	font-family: "Noto Sans", sans-serif !important;
-	text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
 .index-content h1 {

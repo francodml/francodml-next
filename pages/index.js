@@ -42,7 +42,7 @@ export default function Index( props ) {
                     </p>
 				</div>
                 <ProjectList projects={props.projects}/>
-                 <h2>As this page is under development, this list is not complete. The data here will be expanded upon shortly 😊</h2>
+                 <h2 style={{alignSelf: 'center'}}>As this page is under development, this list is not complete. The data here will be expanded upon shortly 😊</h2>
 
 			</div>
 		</main>
